@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -21,6 +21,63 @@ export default function ProfilePage() {
         visible: { y: 0, opacity: 1 }
     };
 
+    // Data for profile, tabs, and content
+    const profileData = {
+        name: 'John Doe',
+        email: 'john.doe@example.com',
+        phone: '+1 234 567 8900',
+        avatar: 'https://via.placeholder.com/150'
+    };
+
+    const tabs = [
+        { id: 'personal', label: 'Personal' },
+        { id: 'security', label: 'Security' },
+        { id: 'activity', label: 'Activity' }
+    ];
+
+    const personalInfo = {
+        fullName: 'John Doe',
+        phoneNumber: '+1 234 567 8900'
+    };
+
+    const securitySettings = [
+        {
+            id: 'password',
+            icon: <FaLock className="text-blue-500" />,
+            label: 'Password',
+            description: 'Last changed 30 days ago',
+            actionLabel: 'Change',
+        },
+        {
+            id: 'twoFactor',
+            icon: <FaShieldAlt className="text-blue-500" />,
+            label: 'Two-Factor Authentication',
+            description: 'Currently enabled',
+            actionLabel: 'Manage',
+        }
+    ];
+
+    const activityLogs = [
+        {
+            id: 1,
+            icon: <FaHistory className="text-blue-500" />,
+            label: 'Login from new device',
+            time: '2 hours ago'
+        },
+        {
+            id: 2,
+            icon: <FaHistory className="text-blue-500" />,
+            label: 'Password changed',
+            time: '1 day ago'
+        },
+        {
+            id: 3,
+            icon: <FaHistory className="text-blue-500" />,
+            label: 'Email address changed',
+            time: '3 days ago'
+        }
+    ];
+
     return (
         <div className="min-h-screen bg-gray-100 p-8">
             <motion.div
@@ -34,7 +91,7 @@ export default function ProfilePage() {
                     <div className="flex items-center space-x-6">
                         <div className="relative">
                             <img
-                                src="https://via.placeholder.com/150"
+                                src={profileData.avatar}
                                 alt="Profile"
                                 className="w-32 h-32 rounded-full object-cover"
                             />
@@ -43,25 +100,25 @@ export default function ProfilePage() {
                             </button>
                         </div>
                         <div>
-                            <h1 className="text-2xl font-bold">John Doe</h1>
-                            <p className="text-gray-600">john.doe@example.com</p>
+                            <h1 className="text-2xl font-bold text-black">{profileData.name}</h1>
+                            <p className="text-black">{profileData.email}</p>
                         </div>
                     </div>
                 </motion.div>
 
                 {/* Tab Navigation */}
                 <motion.div variants={itemVariants} className="flex mb-6 space-x-4">
-                    {['personal', 'security', 'activity'].map((tab) => (
+                    {tabs.map((tab) => (
                         <button
-                            key={tab}
-                            onClick={() => setActiveTab(tab)}
+                            key={tab.id}
+                            onClick={() => setActiveTab(tab.id)}
                             className={`px-6 py-3 rounded-lg font-medium transition-all ${
-                                activeTab === tab
+                                activeTab === tab.id
                                     ? 'bg-blue-500 text-white'
-                                    : 'bg-white text-gray-600 hover:bg-gray-50'
+                                    : 'bg-white text-black hover:bg-gray-50'
                             }`}
                         >
-                            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                            {tab.label}
                         </button>
                     ))}
                 </motion.div>
@@ -74,12 +131,12 @@ export default function ProfilePage() {
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.5 }}
                         >
-                            <h2 className="text-xl font-bold mb-4">Personal Information</h2>
+                            <h2 className="text-xl font-bold mb-4 text-black">Personal Information</h2>
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center">
                                     <div>
-                                        <p className="text-gray-600">Full Name</p>
-                                        <p className="font-medium">John Doe</p>
+                                        <p className="text-black">Full Name</p>
+                                        <p className="font-medium text-black">{personalInfo.fullName}</p>
                                     </div>
                                     <button
                                         onClick={() => setIsEditing(!isEditing)}
@@ -89,8 +146,8 @@ export default function ProfilePage() {
                                     </button>
                                 </div>
                                 <div>
-                                    <p className="text-gray-600">Phone Number</p>
-                                    <p className="font-medium">+1 234 567 8900</p>
+                                    <p className="text-black">Phone Number</p>
+                                    <p className="font-medium text-black">{personalInfo.phoneNumber}</p>
                                 </div>
                             </div>
                         </motion.div>
@@ -104,28 +161,20 @@ export default function ProfilePage() {
                             className="space-y-6"
                         >
                             <div>
-                                <h2 className="text-xl font-bold mb-4">Security Settings</h2>
+                                <h2 className="text-xl font-bold mb-4 text-black">Security Settings</h2>
                                 <div className="space-y-4">
-                                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                                        <div className="flex items-center space-x-4">
-                                            <FaLock className="text-blue-500" />
-                                            <div>
-                                                <p className="font-medium">Password</p>
-                                                <p className="text-sm text-gray-600">Last changed 30 days ago</p>
+                                    {securitySettings.map(setting => (
+                                        <div key={setting.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                            <div className="flex items-center space-x-4">
+                                                {setting.icon}
+                                                <div>
+                                                    <p className="font-medium text-black">{setting.label}</p>
+                                                    <p className="text-sm text-black">{setting.description}</p>
+                                                </div>
                                             </div>
+                                            <button className="text-blue-500 hover:text-blue-600">{setting.actionLabel}</button>
                                         </div>
-                                        <button className="text-blue-500 hover:text-blue-600">Change</button>
-                                    </div>
-                                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                                        <div className="flex items-center space-x-4">
-                                            <FaShieldAlt className="text-blue-500" />
-                                            <div>
-                                                <p className="font-medium">Two-Factor Authentication</p>
-                                                <p className="text-sm text-gray-600">Currently enabled</p>
-                                            </div>
-                                        </div>
-                                        <button className="text-blue-500 hover:text-blue-600">Manage</button>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
                         </motion.div>
@@ -137,14 +186,14 @@ export default function ProfilePage() {
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.5 }}
                         >
-                            <h2 className="text-xl font-bold mb-4">Recent Activity</h2>
+                            <h2 className="text-xl font-bold mb-4 text-black">Recent Activity</h2>
                             <div className="space-y-4">
-                                {[1, 2, 3].map((item) => (
-                                    <div key={item} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                                        <FaHistory className="text-blue-500" />
+                                {activityLogs.map((log) => (
+                                    <div key={log.id} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                                        {log.icon}
                                         <div>
-                                            <p className="font-medium">Login from new device</p>
-                                            <p className="text-sm text-gray-600">2 hours ago</p>
+                                            <p className="font-medium text-black">{log.label}</p>
+                                            <p className="text-sm text-black">{log.time}</p>
                                         </div>
                                     </div>
                                 ))}
