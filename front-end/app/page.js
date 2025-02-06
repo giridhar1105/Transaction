@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <Sidebar />
+      {/* <Sidebar /> */}
 ..      <Dashboard />
       {/* <Fraud /> */}
       {/* <Footer /> */}
