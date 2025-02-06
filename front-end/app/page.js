@@ -12,7 +12,7 @@ export default function Home() {
       {/* <Sidebar /> */}
 ..      <Dashboard />
       {/* <Fraud /> */}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
