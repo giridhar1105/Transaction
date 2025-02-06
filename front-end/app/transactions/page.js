@@ -3,7 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiDownload, FiSearch } from "react-icons/fi";
 
-// Mock data for transactions
+// This is your mock data, now as an array of objects
 const mockTransactions = [
   {
     id: "1",
@@ -25,8 +25,8 @@ const mockTransactions = [
   },
 ];
 
-export default function TransactionHistory() {
-  const [transactions, setTransactions] = useState(mockTransactions);
+// Parent component could pass this data as a prop, for now it's hardcoded
+export default function TransactionHistory({ transactions = mockTransactions }) {
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [filterDate, setFilterDate] = useState("7days");
   const [searchQuery, setSearchQuery] = useState("");
