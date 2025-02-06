@@ -26,7 +26,7 @@ const mockTransactions = [
 ];
 
 // Parent component could pass this data as a prop, for now it's hardcoded
-export default function TransactionHistory({ transactions = mockTransactions }) {
+export default function TransactionHistory({ transactions = mockTransactions, balance = 25420.50 }) {
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [filterDate, setFilterDate] = useState("7days");
   const [searchQuery, setSearchQuery] = useState("");
@@ -69,7 +69,7 @@ export default function TransactionHistory({ transactions = mockTransactions }) 
           <h1 className="text-3xl font-bold mb-4 text-black">Transaction History</h1>
           <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg p-6 shadow-lg w-full">
             <h2 className="text-2xl font-semibold mb-2 text-white">Total Balance</h2>
-            <p className="text-4xl font-bold text-white">{formatCurrency(25420.50)}</p>
+            <p className="text-4xl font-bold text-white">{formatCurrency(balance)}</p>
           </div>
         </div>
 
