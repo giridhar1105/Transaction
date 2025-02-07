@@ -24,7 +24,8 @@ export default function SignupPage() {
 
     // Simulating a face detection process
     const handleFaceDetection = () => {
-        // This is where you would normally trigger an actual face detection process
+        if (faceDetected) return; // Prevent triggering face detection if already detected
+
         setIsCameraActive(true);
         setTimeout(() => {
             // Simulating a delay for face detection and setting faceDetected to true
@@ -32,11 +33,16 @@ export default function SignupPage() {
         }, 3000); // Simulating a 3-second delay for detecting the face
     };
 
+    const handleResetFaceDetection = () => {
+        setFaceDetected(false); // Reset the face detection status
+        setIsCameraActive(false); // Stop camera simulation
+    };
+
     useEffect(() => {
-        if (isCameraActive) {
+        if (isCameraActive && !faceDetected) {
             handleFaceDetection();
         }
-    }, [isCameraActive]);
+    }, [isCameraActive, faceDetected]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -96,7 +102,7 @@ export default function SignupPage() {
                             <input
                                 type="text"
                                 placeholder="First Name"
-                                className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
+                                className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors text-black"
                                 required
                             />
                         </div>
@@ -105,7 +111,7 @@ export default function SignupPage() {
                             <input
                                 type="text"
                                 placeholder="Last Name"
-                                className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
+                                className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors text-black"
                                 required
                             />
                         </div>
@@ -116,7 +122,7 @@ export default function SignupPage() {
                         <input
                             type="email"
                             placeholder="Email Address"
-                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
+                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors text-black"
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             required
@@ -128,7 +134,7 @@ export default function SignupPage() {
                             <input
                                 type="text"
                                 placeholder="Enter OTP"
-                                className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
+                                className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors text-black"
                                 value={formData.otp}
                                 onChange={(e) => setFormData({ ...formData, otp: e.target.value })}
                                 required
@@ -141,7 +147,7 @@ export default function SignupPage() {
                         <input
                             type="tel"
                             placeholder="Phone Number"
-                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
+                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors text-black"
                             value={formData.phone}
                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         />
@@ -152,7 +158,7 @@ export default function SignupPage() {
                         <input
                             type="password"
                             placeholder="Password"
-                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
+                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors text-black"
                             value={formData.password}
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                             required
@@ -164,7 +170,7 @@ export default function SignupPage() {
                         <input
                             type="password"
                             placeholder="Confirm Password"
-                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
+                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors text-black"
                             value={formData.confirmPassword}
                             onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                             required
@@ -180,9 +186,9 @@ export default function SignupPage() {
                         <input
                             type="button"
                             value={faceDetected ? "Face Detected" : "Detect Face"}
-                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
-                            onClick={() => handleFaceDetection()}
-                            disabled={faceDetected}
+                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors text-black"
+                            onClick={faceDetected ? handleResetFaceDetection : handleFaceDetection} // Switch function based on detection
+                            disabled={faceDetected} // Disable if face detected
                         />
                     </motion.div>
 
