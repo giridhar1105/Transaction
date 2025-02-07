@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { FiMail, FiLock, FiUser, FiPhone, FiShield } from 'react-icons/fi';
+import { useState, useEffect } from 'react';
+import { FiMail, FiLock, FiUser, FiPhone, FiShield, FiCamera } from 'react-icons/fi';
 
 export default function SignupPage() {
     const [formData, setFormData] = useState({
@@ -19,26 +19,40 @@ export default function SignupPage() {
 
     const [otpSent, setOtpSent] = useState(false); // New state for OTP sent status
     const [otpVerified, setOtpVerified] = useState(false); // New state for OTP verification status
+    const [faceDetected, setFaceDetected] = useState(false); // State for face detection status
+    const [isCameraActive, setIsCameraActive] = useState(false);
+
+    // Simulating a face detection process
+    const handleFaceDetection = () => {
+        // This is where you would normally trigger an actual face detection process
+        setIsCameraActive(true);
+        setTimeout(() => {
+            // Simulating a delay for face detection and setting faceDetected to true
+            setFaceDetected(true);
+        }, 3000); // Simulating a 3-second delay for detecting the face
+    };
+
+    useEffect(() => {
+        if (isCameraActive) {
+            handleFaceDetection();
+        }
+    }, [isCameraActive]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!otpSent) {
-            // Trigger OTP sending logic here (you can integrate with an actual API for sending OTP)
             console.log('Sending OTP...');
             setOtpSent(true);
         } else if (!otpVerified) {
-            // OTP verification logic (this should be a backend check)
             console.log('Verifying OTP...');
-            if (formData.otp === '123456') { // Simulate OTP validation
+            if (formData.otp === '123456') {
                 setOtpVerified(true);
                 console.log('OTP Verified');
             } else {
                 console.log('Invalid OTP');
             }
         } else {
-            // Handle final form submission after OTP verification
             console.log('Form submitted with verified OTP');
-            // Add your form submission logic here (e.g., API call to register user)
         }
     };
 
@@ -68,7 +82,7 @@ export default function SignupPage() {
                 variants={containerVariants}
                 className="bg-white/90 backdrop-blur-lg rounded-2xl p-8 w-full max-w-2xl shadow-2xl"
             >
-                <motion.h1 
+                <motion.h1
                     variants={itemVariants}
                     className="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent"
                 >
@@ -154,6 +168,21 @@ export default function SignupPage() {
                             value={formData.confirmPassword}
                             onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                             required
+                        />
+                    </motion.div>
+
+                    {/* Face Detection Section */}
+                    <motion.div
+                        variants={itemVariants}
+                        className={`relative ${!faceDetected ? 'opacity-50' : 'opacity-100'}`}
+                    >
+                        <FiCamera className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <input
+                            type="button"
+                            value={faceDetected ? "Face Detected" : "Detect Face"}
+                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
+                            onClick={() => handleFaceDetection()}
+                            disabled={faceDetected}
                         />
                     </motion.div>
 
