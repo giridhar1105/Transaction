@@ -23,9 +23,9 @@ export default function ProfilePage() {
 
     // Data for profile, tabs, and content
     const profileData = {
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        phone: '+1 234 567 8900',
+        name: 'Giridhara D',
+        email: 'giridhaar1105@gmail.com.com',
+        phone: '+91 8660304942',
         avatar: 'https://via.placeholder.com/150'
     };
 
