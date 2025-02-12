@@ -14,7 +14,6 @@ export default function LoginPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Login attempt with:', formData);
-        // Add your login logic here
     };
 
     const containerVariants = {
