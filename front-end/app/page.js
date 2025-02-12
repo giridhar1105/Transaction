@@ -5,9 +5,9 @@ import Signup from "./Signup/page";
 export default function Home() {
   return (
     <div>
-       <Header />
-      <Dashboard /> 
-
+       {/* <Header />
+      <Dashboard />  */}
+        <Signup />
     </div>
   );
 }
