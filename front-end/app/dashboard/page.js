@@ -50,15 +50,15 @@ const Sidebar = () => {
 export default function Dashboard() {
   // User details as an object
   const user = {
-    name: "Giridhara D",
-    email: 'giridhaar1105@gmail.com',
+    name: "Rahul S",
+    email: 'rahul@gmail.com',
     avatar: "👤",
     status: ["Active", "Email Verified", "2FA Enabled"],
   };
 
   // Financial details as an object
   const financialOverview = {
-    balance: 4050000,
+    balance: 405000000,
     recentTransactions: [
       { type: "Deposit", amount: 2000, date: "2025-01-15" },
       { type: "Withdrawal", amount: -500, date: "2025-01-14" },
