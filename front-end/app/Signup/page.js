@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import Button from "./Button"; // Assuming Button is a custom component
+import Button from "./Button";
 
 export const Appbar = () => {
     const session = useSession();
