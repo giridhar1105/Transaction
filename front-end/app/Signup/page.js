@@ -1,10 +1,17 @@
 "use client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
-import Button from "./Button";
+import { signIn, signOut, useSession, SessionProvider } from "next-auth/react";
 
-export const Appbar = () => {
-    const session = useSession();
+export default function Signup() {
+    const { data: session } = useSession();
+
+    const handleSignIn = () => {
+        signIn();
+    };
+
+    const handleSignOut = () => {
+        signOut();
+    };
 
     return (
         <div className="border-b px-2 py-2 flex justify-between">
@@ -12,22 +19,22 @@ export const Appbar = () => {
                 DCEX
             </div>
             <div>
-                {session.data?.user ? (
-                    <Button 
-                        onClick={() => signOut()} 
+                {session?.user ? (
+                    <button 
+                        onClick={handleSignOut}
                         className="bg-red-500 text-white py-2 px-4 rounded"
                     >
                         Logout
-                    </Button>
+                    </button>
                 ) : (
-                    <Button 
-                        onClick={() => signIn()} 
+                    <button 
+                        onClick={handleSignIn}
                         className="bg-blue-500 text-white py-2 px-4 rounded"
                     >
                         Signin
-                    </Button>
+                    </button>
                 )}
             </div>
         </div>
     );
-};
+}
