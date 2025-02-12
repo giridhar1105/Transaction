@@ -8,7 +8,6 @@ export default function LogoutPage() {
     const router = useRouter();
 
     useEffect(() => {
-        // Redirect to home page after 5 seconds
         const timer = setTimeout(() => {
             router.push('/');
         }, 5000);
