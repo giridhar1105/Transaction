@@ -7,7 +7,7 @@ export default function Home() {
     <div>
       {/* <Header />
       <Dashboard />  */}
-        <Signup />
+      <Signup />
     </div>
   );
 }
