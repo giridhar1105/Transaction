@@ -8,6 +8,9 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
     }),
   ],
+  pages: {
+    signIn: '/auth/signin',  // Custom sign-in page (optional)
+  },
 });
 
-export { handler as get, handler as post };
+export { handler as GET, handler as POST };

@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { signIn } from "next-auth/react"; // Import signIn function from next-auth/react
+import { signIn } from "next-auth/react"; // Import signIn from NextAuth
 
 export default function Signup() {
     const [isHovered, setIsHovered] = useState(false);
 
     const handleGoogleLogin = () => {
-        signIn("google"); // Trigger Google login using NextAuth's signIn method
+        // Trigger Google login using NextAuth's signIn method
+        signIn("google");
     };
 
     return (
