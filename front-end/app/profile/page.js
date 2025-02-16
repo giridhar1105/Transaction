@@ -36,8 +36,8 @@ export default function ProfilePage() {
     ];
 
     const personalInfo = {
-        fullName: 'John Doe',
-        phoneNumber: '+1 234 567 8900'
+        fullName: 'Gieidhara D',
+        phoneNumber: '+91 86603 04942'
     };
 
     const securitySettings = [
@@ -86,7 +86,6 @@ export default function ProfilePage() {
                 variants={containerVariants}
                 className="max-w-4xl mx-auto"
             >
-                {/* Profile Header */}
                 <motion.div variants={itemVariants} className="bg-white rounded-lg p-6 mb-6 shadow-lg">
                     <div className="flex items-center space-x-6">
                         <div className="relative">
