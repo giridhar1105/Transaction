@@ -146,8 +146,8 @@ export default function SignupPage() {
 
                     <p className="mt-6 text-center text-gray-600">
                         Already have an account?{' '}
-                        <a href="/login" className="text-blue-500 hover:text-blue-600">
-                            Log in
+                        <a href="/Login" className="text-blue-500 hover:text-blue-600">
+                            Login
                         </a>
                     </p>
                 </motion.div>

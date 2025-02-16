@@ -101,7 +101,7 @@ export default function LoginPage() {
 
                     <motion.p variants={itemVariants} className="text-center text-gray-600 mt-4">
                         Don't have an account?{" "}
-                        <a href="/signup" className="text-blue-500 hover:underline">
+                        <a href="/" className="text-blue-500 hover:underline">
                             Sign up
                         </a>
                     </motion.p>
