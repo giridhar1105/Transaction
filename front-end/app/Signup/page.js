@@ -13,6 +13,9 @@ export default function SignupPage() {
         phone: ''
     });
 
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: { 
@@ -33,10 +36,37 @@ export default function SignupPage() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission here
-        console.log('Form submitted:', formData);
+
+        if (formData.password !== formData.confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+
+        setError('');
+        setSuccess('');
+
+        try {
+            const response = await fetch('/api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData), // Converts formData to JSON string
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setSuccess('User created successfully');
+            } else {
+                setError(data.error || 'Something went wrong');
+            }
+        } catch (error) {
+            setError('Network error. Please try again.');
+            console.error(error);
+        }
     };
 
     return (
@@ -54,6 +84,9 @@ export default function SignupPage() {
                     <h1 className="text-2xl font-bold text-center mb-8 text-black">Create Account</h1>
                     
                     <form onSubmit={handleSubmit} className="space-y-6">
+                        {error && <div className="text-red-500 text-sm text-center">{error}</div>}
+                        {success && <div className="text-green-500 text-sm text-center">{success}</div>}
+                        
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-gray-700">Full Name</label>
                             <div className="relative">
