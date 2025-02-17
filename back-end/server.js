@@ -2,6 +2,7 @@ import express from 'express';
 import pkg from 'pg';
 const { Pool } = pkg;
 import cors from 'cors';
+
 const app = express();
 const port = 5000;
 
@@ -10,7 +11,6 @@ app.use(express.json());
 
 const pool = new Pool({
   connectionString: "postgresql://postgres:giridhar1105@db.umounynznyxkpwfeeupg.supabase.co:5432/postgres",
-  ssl: { rejectUnauthorized: false },
 });
 
 app.post('/api/signup', async (req, res) => {
@@ -34,7 +34,7 @@ app.post('/api/signup', async (req, res) => {
 
     return res.status(200).json({
       message: 'User created successfully',
-      user, 
+      user,
     });
   } catch (error) {
     console.error('Error creating user:', error);
@@ -44,5 +44,5 @@ app.post('/api/signup', async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
-  console.log(`Database connection established.`);
+  console.log('Database connection established.');
 });

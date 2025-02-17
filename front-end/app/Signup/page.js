@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaUser, FaEnvelope, FaLock, FaPhone } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 
 export default function SignupPage() {
     const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ export default function SignupPage() {
 
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const navigate = useNavigate(); // Initialize navigate
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -48,18 +50,20 @@ export default function SignupPage() {
         setSuccess('');
 
         try {
-            const response = await fetch('/api/signup', {
+            const response = await fetch('http://localhost:5000/api/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData), // Converts formData to JSON string
+                body: JSON.stringify(formData),
             });
 
             const data = await response.json();
 
             if (response.ok) {
                 setSuccess('User created successfully');
+                // Redirect to the dashboard after successful signup
+                navigate('/dashboard'); 
             } else {
                 setError(data.error || 'Something went wrong');
             }

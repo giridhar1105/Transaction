@@ -8,6 +8,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "chalk": "^5.4.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "pg": "^8.13.3"
