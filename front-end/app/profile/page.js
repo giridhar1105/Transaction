@@ -1,12 +1,34 @@
-"use client";
+"use client"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaUser, FaLock, FaShieldAlt, FaHistory } from 'react-icons/fa';
 
 export default function ProfilePage() {
     const [activeTab, setActiveTab] = useState('personal');
     const [isEditing, setIsEditing] = useState(false);
+    const [profileData, setProfileData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        avatar: ''  // you can update this with actual avatar url later
+    });
+
+    useEffect(() => {
+        const userId = 1; // Replace this with the actual user ID
+
+        fetch(`http://localhost:5000/api/profile/${userId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setProfileData({
+                    name: data.full_name,
+                    email: data.email,
+                    phone: data.phone,
+                    avatar: '' // You can update this field with avatar image if you have one stored
+                });
+            })
+            .catch((error) => console.error('Error fetching profile data:', error));
+    }, []);
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -21,14 +43,6 @@ export default function ProfilePage() {
         visible: { y: 0, opacity: 1 }
     };
 
-    // Data for profile, tabs, and content
-    const profileData = {
-        name: 'Giridhara D',
-        email: 'giridhaar1105@gmail.com.com',
-        phone: '+91 8660304942',
-        avatar: 'https://via.placeholder.com/150'
-    };
-
     const tabs = [
         { id: 'personal', label: 'Personal' },
         { id: 'security', label: 'Security' },
@@ -36,8 +50,8 @@ export default function ProfilePage() {
     ];
 
     const personalInfo = {
-        fullName: 'Gieidhara D',
-        phoneNumber: '+91 86603 04942'
+        fullName: profileData.name,
+        phoneNumber: profileData.phone
     };
 
     const securitySettings = [

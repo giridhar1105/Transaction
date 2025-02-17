@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaUser, FaEnvelope, FaLock, FaPhone } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import { useRouter } from 'next/router';
+
 
 export default function SignupPage() {
     const [formData, setFormData] = useState({
@@ -16,7 +17,11 @@ export default function SignupPage() {
 
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    const navigate = useNavigate(); // Initialize navigate
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -62,8 +67,9 @@ export default function SignupPage() {
 
             if (response.ok) {
                 setSuccess('User created successfully');
-                // Redirect to the dashboard after successful signup
-                navigate('/dashboard'); 
+                setTimeout(() => {
+                    router.push('/dashboard');
+                }, 2000); // Wait for 2 seconds before redirecting
             } else {
                 setError(data.error || 'Something went wrong');
             }
@@ -72,6 +78,10 @@ export default function SignupPage() {
             console.error(error);
         }
     };
+
+    if (!isClient) {
+        return null;
+    }
 
     return (
         <div className="min-h-screen bg-gray-100 p-8">
