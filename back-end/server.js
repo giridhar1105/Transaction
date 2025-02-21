@@ -37,9 +37,15 @@ app.post('/api/signup', async (req, res) => {
 
     const user = result.rows[0];
 
+    // Send the user details back, including the newly created user ID
     return res.status(200).json({
       message: 'User created successfully',
-      user,
+      user: {
+        id: user.id,
+        full_name: user.full_name,
+        email: user.email,
+        phone: user.phone
+      }
     });
   } catch (error) {
     console.error('Error creating user:', error);
@@ -66,6 +72,7 @@ app.get('/api/profile/:id', async (req, res) => {
 
     const user = result.rows[0];
 
+    // Send the profile details of the user
     return res.status(200).json(user);
   } catch (error) {
     console.error('Error fetching user:', error);

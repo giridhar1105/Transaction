@@ -1,8 +1,9 @@
-"use client"
+"use client";
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaUser, FaLock, FaShieldAlt, FaHistory } from 'react-icons/fa';
+import jwt_decode from 'jwt-decode';  // Import jwt-decode to decode the JWT token
 
 export default function ProfilePage() {
     const [activeTab, setActiveTab] = useState('personal');
@@ -11,23 +12,39 @@ export default function ProfilePage() {
         name: '',
         email: '',
         phone: '',
-        avatar: ''  // you can update this with actual avatar url later
+        avatar: ''  // You can update this with the actual avatar url later
     });
 
     useEffect(() => {
-        const userId = 1; // Replace this with the actual user ID
+        // Retrieve JWT token from localStorage
+        const token = localStorage.getItem('token');
+        if (!token) {
+            // Redirect to login if no token found
+            window.location.href = '/login';
+            return;
+        }
 
-        fetch(`http://localhost:5000/api/profile/${userId}`)
-            .then((response) => response.json())
-            .then((data) => {
-                setProfileData({
-                    name: data.full_name,
-                    email: data.email,
-                    phone: data.phone,
-                    avatar: '' // You can update this field with avatar image if you have one stored
-                });
-            })
-            .catch((error) => console.error('Error fetching profile data:', error));
+        try {
+            // Decode the JWT token and get the user ID
+            const decodedToken = jwt_decode(token);
+            const userId = decodedToken.userId;
+
+            // Fetch user profile data using the userId
+            fetch(`http://localhost:5000/api/profile/${userId}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    setProfileData({
+                        name: data.full_name,
+                        email: data.email,
+                        phone: data.phone,
+                        avatar: data.avatar || '' // Optional, if you store avatar images
+                    });
+                })
+                .catch((error) => console.error('Error fetching profile data:', error));
+        } catch (error) {
+            console.error('Invalid token or error decoding it', error);
+            window.location.href = '/login';
+        }
     }, []);
 
     const containerVariants = {
@@ -104,7 +121,7 @@ export default function ProfilePage() {
                     <div className="flex items-center space-x-6">
                         <div className="relative">
                             <img
-                                src={profileData.avatar}
+                                src={profileData.avatar || '/default-avatar.png'}
                                 alt="Profile"
                                 className="w-32 h-32 rounded-full object-cover"
                             />
@@ -166,53 +183,8 @@ export default function ProfilePage() {
                         </motion.div>
                     )}
 
-                    {activeTab === 'security' && (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.5 }}
-                            className="space-y-6"
-                        >
-                            <div>
-                                <h2 className="text-xl font-bold mb-4 text-black">Security Settings</h2>
-                                <div className="space-y-4">
-                                    {securitySettings.map(setting => (
-                                        <div key={setting.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                                            <div className="flex items-center space-x-4">
-                                                {setting.icon}
-                                                <div>
-                                                    <p className="font-medium text-black">{setting.label}</p>
-                                                    <p className="text-sm text-black">{setting.description}</p>
-                                                </div>
-                                            </div>
-                                            <button className="text-blue-500 hover:text-blue-600">{setting.actionLabel}</button>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </motion.div>
-                    )}
-
-                    {activeTab === 'activity' && (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            <h2 className="text-xl font-bold mb-4 text-black">Recent Activity</h2>
-                            <div className="space-y-4">
-                                {activityLogs.map((log) => (
-                                    <div key={log.id} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                                        {log.icon}
-                                        <div>
-                                            <p className="font-medium text-black">{log.label}</p>
-                                            <p className="text-sm text-black">{log.time}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </motion.div>
-                    )}
+                    {/* Other tabs */}
+                    {/* Add security and activity logs sections here */}
                 </motion.div>
             </motion.div>
         </div>

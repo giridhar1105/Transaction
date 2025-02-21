@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import { FaUser, FaEnvelope, FaLock, FaPhone } from 'react-icons/fa';
 import { useRouter } from "next/navigation";
 
-
 export default function SignupPage() {
     const [formData, setFormData] = useState({
         fullName: '',
@@ -17,26 +16,7 @@ export default function SignupPage() {
 
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    const [isClient, setIsClient] = useState(false); 
-
-    const router = useRouter(); 
-
-    useEffect(() => {
-        setIsClient(true); 
-    }, []);
-
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: { 
-            opacity: 1,
-            transition: { duration: 0.5, staggerChildren: 0.1 }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: { y: 0, opacity: 1 }
-    };
+    const router = useRouter();
 
     const handleChange = (e) => {
         setFormData({
@@ -68,11 +48,11 @@ export default function SignupPage() {
             const data = await response.json();
 
             if (response.ok) {
+                // Save JWT token in a cookie or in-memory for session
+                localStorage.setItem('token', data.token);  // Save JWT token
                 setSuccess('User created successfully');
                 setTimeout(() => {
-                    if (router) {
-                        router.push('/home'); 
-                    }
+                    router.push('/profile'); // Redirect to profile page after successful signup
                 }, 2000);
             } else {
                 setError(data.error || 'Something went wrong');
@@ -83,24 +63,15 @@ export default function SignupPage() {
         }
     };
 
-    if (!isClient) {
-        return null;
-    }
-
     return (
         <div className="min-h-screen bg-gray-100 p-8">
             <motion.div
                 initial="hidden"
                 animate="visible"
-                variants={containerVariants}
                 className="max-w-md mx-auto"
             >
-                <motion.div 
-                    variants={itemVariants} 
-                    className="bg-white rounded-lg p-8 shadow-lg"
-                >
+                <motion.div className="bg-white rounded-lg p-8 shadow-lg">
                     <h1 className="text-2xl font-bold text-center mb-8 text-black">Create Account</h1>
-                    
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {error && <div className="text-red-500 text-sm text-center">{error}</div>}
                         {success && <div className="text-green-500 text-sm text-center">{success}</div>}
