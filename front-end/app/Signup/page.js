@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaUser, FaEnvelope, FaLock, FaPhone } from 'react-icons/fa';
-import { useRouter } from 'next/router';
+import { useRouter } from "next/navigation";
 
 
 export default function SignupPage() {
@@ -17,10 +17,12 @@ export default function SignupPage() {
 
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    const [isClient, setIsClient] = useState(false);
+    const [isClient, setIsClient] = useState(false); 
+
+    const router = useRouter(); 
 
     useEffect(() => {
-        setIsClient(true);
+        setIsClient(true); 
     }, []);
 
     const containerVariants = {
@@ -68,8 +70,10 @@ export default function SignupPage() {
             if (response.ok) {
                 setSuccess('User created successfully');
                 setTimeout(() => {
-                    router.push('/dashboard');
-                }, 2000); // Wait for 2 seconds before redirecting
+                    if (router) {
+                        router.push('/home'); 
+                    }
+                }, 2000);
             } else {
                 setError(data.error || 'Something went wrong');
             }
